@@ -17,84 +17,242 @@
 			crossorigin="anonymous"
 		/>
 		<style>
-			th,
-			td {
-				border: 1px solid black;
+			.form-table th, .form-table td {
+				border: 1px solid #ccc;
+				padding: 8px;
+			}
+			.hotel-bg {
+				background-image: url(../IMG/ptet.jpg);
+				background-size: cover;
+			}
+			.counter-btn {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				border: 2px solid #666;
+				background: white;
+				font-size: 16px;
+				line-height: 1;
+			}
+			.counter-btn:hover {
+				background: #f0f0f0;
 			}
 		</style>
 	</head>
-	<body class="bg-warning">
-		<!--Container de toute la page-->
-		<section class="container-fluid px-0 bg-info">
-			<!--Header de la page-->
-			<header class="row offset-3 col-6 offset-3 bg-light">
-				<h1 class="text-center">BOOKING HOTEL</h1>
-				<p class="text-center text-danger">
-					Indiquez vos dates de réservations - Toute annulation doit
-					se faire avant 48h
-				</p>
-			</header>
-			<!--Formulaire-->
-			<section class="row bg-success-subtle">
-				<form class="offset-1 col-2">
-					<table border="1" id="tableFacture">
-						<thead>
-							<tr>
-								<th>Produit</th>
-								<th>Quantité</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="bi bi-house"></td>
-								<td>FRANCE-ETRANGER</td>
-							</tr>
-							<tr>
-								<td>Lieu de Séjour</td>
-								<td>
-									<input
-										type="text"
-										id="lieu"
-										name="lieu_de_séjour"
-									/>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="arriver">Arrivée</label>
-									<input
-										type="date"
-										id="arriver"
-										name="lieu_d'arrivé"
-									/>
-								</td>
-								<td>
-									<label for="arriver">Départ</label>
-									<input
-										type="date"
-										id="arriver"
-										name="lieu_d'arrivé"
-									/>
-								</td>
-							</tr>
-							<tr>
-								<td>Adulte</td>
-								<td>
-									<input
-										type="number"
-										id="adulte"
-										name="adulte"
-									/>
-								</td>
-							</tr>
-							<tr>
-								<td>Image</td>
-								<td>FRANCE-ETRANGER</td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-			</section>
-		</section>
+	<body class="hotel-bg">
+		<div class="container-fluid min-vh-100">
+			<div class="row">
+				<div class="col-12 text-center py-3">
+					<div class="bg-light bg-opacity-75 p-3 rounded mx-auto" style="max-width: 800px;">
+						<h1 class="text-primary">BOOKING HOTEL</h1>
+						<p class="text-danger mb-0">
+							Indiquez vos dates de réservation - Toute annulation doit se faire 48h avant
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-center">
+				<div class="col-md-4 col-lg-3">
+					<div class="bg-light bg-opacity-90 p-3 rounded">
+						<form>
+							<table class="form-table w-100">
+								<tr>
+									<td><i class="bi bi-building"></i></td>
+									<td><strong>France - Etranger</strong></td>
+								</tr>
+								<tr>
+									<td>Lieu de séjour</td>
+									<td>
+										<input type="text" class="form-control" id="lieu">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>Arrivée</label><br>
+										<input type="date" class="form-control" id="arrivee" value="2025-07-24">
+									</td>
+									<td>
+										<label>Départ</label><br>
+										<input type="date" class="form-control" id="depart" value="2025-08-22">
+									</td>
+								</tr>
+								<tr>
+									<td>Adulte</td>
+									<td class="d-flex align-items-center gap-2">
+										<button type="button" class="counter-btn" onclick="changeCount('adulte', -1)">-</button>
+										<span id="adulte-count" class="mx-2">2</span>
+										<button type="button" class="counter-btn" onclick="changeCount('adulte', 1)">+</button>
+									</td>
+								</tr>
+								<tr>
+									<td>Enfant</td>
+									<td class="d-flex align-items-center gap-2">
+										<button type="button" class="counter-btn" onclick="changeCount('enfant', -1)">-</button>
+										<span id="enfant-count" class="mx-2">2</span>
+										<button type="button" class="counter-btn" onclick="changeCount('enfant', 1)">+</button>
+									</td>
+								</tr>
+								<tr>
+									<td>Chambre</td>
+									<td class="d-flex align-items-center gap-2">
+										<button type="button" class="counter-btn" onclick="changeCount('chambre', -1)">-</button>
+										<span id="chambre-count" class="mx-2">0</span>
+										<button type="button" class="counter-btn" onclick="changeCount('chambre', 1)">+</button>
+									</td>
+								</tr>
+							</table>
+							
+							<div class="mt-3">
+								<button type="button" class="btn btn-success w-100 mb-2" onclick="rechercher()">Rechercher</button>
+								<button type="button" class="btn btn-primary w-100 mb-2" onclick="effacer()">Effacer</button>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="travail">
+									<label class="form-check-label" for="travail">Je voyage pour le travail</label>
+								</div>
+								<div id="ages-enfants" class="mt-2">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="col-md-4 col-lg-3">
+					<div class="bg-primary bg-opacity-90 text-white p-3 rounded">
+						<h3 class="text-danger">Confirmation réservation</h3>
+						<div class="mb-2">
+							<strong>Nombre(s) d'adulte(s):</strong><br>
+							<span id="confirm-adulte">-</span>
+						</div>
+						<div class="mb-2">
+							<strong>Nombre(s) d'enfant(s):</strong><br>
+							<span id="confirm-enfant">-</span>
+						</div>
+						<div class="mb-2">
+							<strong>Nombre(s) de chambre(s):</strong><br>
+							<span id="confirm-chambre">-</span>
+						</div>
+						<div class="mb-2">
+							<strong>Voyage pour le travail:</strong><br>
+							<span id="confirm-travail">-</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="position-fixed bottom-0 w-100 bg-danger text-white text-center py-2">
+			Indiquez vos dates de réservation - Toute annulation doit se faire avant 48h
+		</div>
+
+		<script>
+			function validateDates() {
+				const arrivee = new Date(document.getElementById('arrivee').value);
+				const depart = new Date(document.getElementById('depart').value);
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+
+				if (arrivee < today) {
+					return { valid: false, message: 'La date d\'arrivée ne peut pas être dans le passé' };
+				}
+
+				if (depart <= arrivee) {
+					return { valid: false, message: 'La date de départ doit être après la date d\'arrivée' };
+				}
+
+				return { valid: true };
+			}
+
+			function createAgeFields() {
+				const nbEnfants = parseInt(document.getElementById('enfant-count').textContent);
+				const container = document.getElementById('ages-enfants');
+				container.innerHTML = '';
+
+				for (let i = 1; i <= nbEnfants; i++) {
+					const div = document.createElement('div');
+					div.className = 'mt-2';
+					
+					const label = document.createElement('label');
+					label.className = 'form-label';
+					label.textContent = `Âge enfant ${i}:`;
+					
+					const select = document.createElement('select');
+					select.className = 'form-select';
+					select.id = `age-enfant-${i}`;
+					
+					for (let age = 0; age <= 16; age++) {
+						const option = document.createElement('option');
+						option.value = age;
+						option.textContent = age;
+						if (age === 5) option.selected = true;
+						select.appendChild(option);
+					}
+					
+					div.appendChild(label);
+					div.appendChild(select);
+					container.appendChild(div);
+				}
+			}
+
+			function changeCount(type, delta) {
+				const countElement = document.getElementById(type + '-count');
+				let currentValue = parseInt(countElement.textContent);
+				
+				if (currentValue + delta >= 0) {
+					currentValue += delta;
+					countElement.textContent = currentValue;
+					
+					if (type === 'enfant') {
+						createAgeFields();
+					}
+				}
+			}
+
+			function updateConfirmation() {
+				document.getElementById('confirm-adulte').textContent = document.getElementById('adulte-count').textContent;
+				document.getElementById('confirm-enfant').textContent = document.getElementById('enfant-count').textContent;
+				document.getElementById('confirm-chambre').textContent = document.getElementById('chambre-count').textContent;
+				
+				const travailChecked = document.getElementById('travail').checked;
+				document.getElementById('confirm-travail').textContent = travailChecked ? 'Oui' : 'Non';
+			}
+
+			function rechercher() {
+				const dateValidation = validateDates();
+				if (!dateValidation.valid) {
+					alert(dateValidation.message);
+					return;
+				}
+
+				const lieu = document.getElementById('lieu').value.trim();
+				if (!lieu) {
+					alert('Veuillez indiquer un lieu de séjour');
+					return;
+				}
+
+				updateConfirmation();
+			}
+
+			function effacer() {
+				document.getElementById('lieu').value = '';
+				document.getElementById('arrivee').value = '';
+				document.getElementById('depart').value = '';
+				document.getElementById('adulte-count').textContent = '0';
+				document.getElementById('enfant-count').textContent = '0';
+				document.getElementById('chambre-count').textContent = '0';
+				document.getElementById('travail').checked = false;
+				
+				document.getElementById('ages-enfants').innerHTML = '';
+				
+				document.getElementById('confirm-adulte').textContent = '-';
+				document.getElementById('confirm-enfant').textContent = '-';
+				document.getElementById('confirm-chambre').textContent = '-';
+				document.getElementById('confirm-travail').textContent = '-';
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+				createAgeFields();
+			});
+		</script>
 	</body>
 </html>
